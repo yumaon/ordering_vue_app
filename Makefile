@@ -25,11 +25,11 @@ clear:
 	docker compose exec app php artisan optimize:clear
 
 # npm run buildを実行するコマンド
-npm-build:
+nbuild:
 	docker compose exec node npm run build
 
 # npm run devを実行するコマンド
-npm-dev:
+ndev:
 	docker compose exec node npm run dev
 
 # npm installを実行するコマンド
