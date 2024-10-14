@@ -20,10 +20,12 @@ class ProductController extends Controller
         //return Inertia::render('Products/Index', ['products' => $products]);
         if(empty($request->input()['search_str'])) {
             $search_str = null;
-            $products = Product::all();
+            //$products = Product::all();
+            $products = Product::paginate(5);
         } else {
             $search_str = $request->input()['search_str'];
-            $products = Product::where('name', 'LIKE', '%'.$search_str.'%')->get();
+            //$products = Product::where('name', 'LIKE', '%'.$search_str.'%')->get();
+            $products = Product::where('name', 'LIKE', '%'.$search_str.'%')->paginate(5);
         }
         return Inertia::render('Products/Index', [
             'products' => $products,
