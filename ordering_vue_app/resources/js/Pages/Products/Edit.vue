@@ -26,10 +26,10 @@ console.log(props.product);
 // formはuseFormの関数の結果としてえられるオブジェクトを保持する変数となる
 // 登録画面になるので初期値は空白となる
 const form = useForm({
-    name: props.product.name,
-    code: props.product.code,
-    price: props.product.price,
-    tax: props.product.tax,
+    name: props.product?.name || '',
+    code: props.product?.code || '',
+    price: props.product?.price || '',
+    tax: props.product?.tax || taxs[0].id,
 });
 
 const submit = () => {
