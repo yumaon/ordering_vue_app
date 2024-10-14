@@ -23,7 +23,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route('register'), {
+    form.post(route('products.store'), {
         // onFinishはバリデーション処理をしたときに、フォームの値がリセットされてしまうため、onSuccessに変更する
         // omSuccessにすることによってデータが保存されたときに、フォームがリセットされるようになる
         onSuccess: () => form.reset('name', 'code', 'price', 'tax'),
@@ -50,82 +50,82 @@ const submit = () => {
                 </div>
 
                 <div class="mt-3 mb-3 ml-3 flex">
-                  <Link :href="route('products.index')" 
-                  :class="'px-4 py-2 bg-indigo-500 text-white border rounded-md font-semibold text-xs'" >
-                  <i class="fa-solid fa-backward"></i> 戻る
-                  </Link>
+                    <Link :href="route('products.index')" 
+                    :class="'px-4 py-2 bg-indigo-500 text-white border rounded-md font-semibold text-xs'" >
+                    <i class="fa-solid fa-backward"></i> 戻る
+                    </Link>
                 </div>  
 
                 <form @submit.prevent="submit">
-                  <div class="mt-4">
-                      <InputLabel for="name" value="Name" />
+                    <div class="mt-4">
+                        <InputLabel for="name" value="Name" />
 
-                      <TextInput
-                          id="name"
-                          type="text"
-                          class="mt-1 block w-full"
-                          v-model="form.name"
-                          required
-                          autofocus
-                          autocomplete="name"
-                      />
+                        <TextInput
+                            id="name"
+                            type="text"
+                            class="mt-1 block w-full"
+                            v-model="form.name"
+                            required
+                            autofocus
+                            autocomplete="name"
+                        />
 
-                      <InputError class="mt-2" :message="form.errors.name" />
-                  </div>
+                        <InputError class="mt-2" :message="form.errors.name" />
+                    </div>
 
-                  <div class="mt-4">
-                      <InputLabel for="code" value="Code" />
+                    <div class="mt-4">
+                        <InputLabel for="code" value="Code" />
 
-                      <TextInput
-                          id="code"
-                          type="text"
-                          class="mt-1 block w-full"
-                          v-model="form.code"
-                          required
-                          autocomplete="code"
-                      />
+                        <TextInput
+                            id="code"
+                            type="text"
+                            class="mt-1 block w-full"
+                            v-model="form.code"
+                            required
+                            autocomplete="code"
+                        />
 
-                      <InputError class="mt-2" :message="form.errors.code" />
-                  </div>
+                        <InputError class="mt-2" :message="form.errors.code" />
+                    </div>
 
-                  <div class="mt-4">
-                      <InputLabel for="price" value="Price" />
+                    <div class="mt-4">
+                        <InputLabel for="price" value="Price" />
 
-                      <TextInput
-                          id="price"
-                          type="text"
-                          class="mt-1 block w-full"
-                          v-model="form.price"
-                          required
-                          autocomplete="price"
-                      />
+                        <TextInput
+                            id="price"
+                            type="text"
+                            class="mt-1 block w-full"
+                            v-model="form.price"
+                            required
+                            autocomplete="price"
+                        />
 
-                      <InputError class="mt-2" :message="form.errors.price" />
-                  </div>
+                        <InputError class="mt-2" :message="form.errors.price" />
+                    </div>
 
-                  <div class="mt-4">
-                      <InputLabel for="tax" value="Tax" />
+                    <div class="mt-4">
+                        <InputLabel for="tax" value="Tax" />
 
-                      <SelectInput :options="taxs"
-                          id="tax"
-                          class="mt-1 block w-full"
-                          v-model="form.tax"
-                          required
-                          autocomplete="price"
-                      />
+                        <SelectInput :options="taxs"
+                            id="tax"
+                            class="mt-1 block w-full"
+                            v-model="form.tax"
+                            required
+                            autocomplete="price"
+                        />
 
-                      <InputError class="mt-2" :message="form.errors.tax" />
-                  </div>
+                        <InputError class="mt-2" :message="form.errors.tax" />
+                    </div>
 
-                  <div class="mt-4 flex items-center justify-end">
-                      <PrimaryButton
-                          class="ms-4"
-                          :class="{ 'opacity-25': form.processing }"
-                          :disabled="form.processing"
-                      >
-                          登録
-                      </PrimaryButton>
-                  </div>
+                    <div class="mt-4 flex items-center justify-end">
+                        <PrimaryButton
+                            class="ms-4"
+                            :class="{ 'opacity-25': form.processing }"
+                            :disabled="form.processing"
+                        >
+                            登録
+                        </PrimaryButton>
+                    </div>
                 </form>
             </div>
         </div>
