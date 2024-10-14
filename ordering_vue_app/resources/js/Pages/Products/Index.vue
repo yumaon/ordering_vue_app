@@ -28,9 +28,9 @@ const search_go = () => {
   form.get(route('products.index'))
 };
 
-console.log(props.products.length);
-
-const products_count = props.products.length;
+console.log(props.products.data.length);
+console.log(props.products);
+const products_count = props.products.data.length;
 </script>
 
 <template>
@@ -86,7 +86,7 @@ const products_count = props.products.length;
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="product in products" :key="product.id">
+                  <tr v-for="product in products.data" :key="product.id">
                       <td class="border border-gray-400 px-4 py-2 text-center">{{ product.id }}</td>
                       <td class="border border-gray-400 px-4 py-2">{{ product.name }}</td>
                       <td class="border border-gray-400 px-4 py-2 text-center">{{ product.code }}</td>
@@ -104,7 +104,64 @@ const products_count = props.products.length;
                       </td>
                   </tr>
                 </tbody>
-              </table>   
+              </table>
+              <!-- Pagination -->
+              <nav class="flex items-center gap-x-1 mt-2 mb-2" aria-label="Pagination">
+                <div class="flex items-center gap-x-1">
+                    <div v-for="(link, index) in products.links" :key="index">
+
+                        <!-- Previous button -->
+                        <div v-if="index == 0">
+                            <Link 
+                                :href="route('products.index', { page: products.current_page - 1, search_str: form.search_str })"
+                                type="button" 
+                                class="min-h-[38px] min-w-[38px] flex justify-center items-center text-gray-800 hover:bg-gray-100 py-2 px-3 text-sm rounded-lg focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hover:bg-white/10 dark:focus:bg-white/10">
+                                <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m15 18-6-6 6-6"></path>
+                                </svg>
+                                <span>Previous</span>
+                            </Link>
+                        </div>
+
+                        <!-- Next button -->
+                        <div v-else-if="index == products.links.length - 1">
+                            <Link 
+                                :href="route('products.index', { page: products.current_page + 1, search_str: form.search_str })"
+                                type="button" 
+                                class="min-h-[38px] min-w-[38px] flex justify-center items-center text-gray-800 hover:bg-gray-100 py-2 px-3 text-sm rounded-lg focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hover:bg-white/10 dark:focus:bg-white/10">
+                                <span>Next</span>
+                                <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m9 18 6-6-6-6"></path>
+                                </svg>
+                            </Link>
+                        </div>
+
+                        <!-- Numbered page buttons -->
+                        <div v-else>
+                            <!-- Active page button -->
+                            <Link 
+                                :href="route('products.index', { page: link.label, search_str: form.search_str })"
+                                v-if="link.active"
+                                type="button" 
+                                class="min-h-[38px] min-w-[38px] flex justify-center items-center bg-gray-200 text-gray-800 py-2 px-3 text-sm rounded-lg focus:outline-none focus:bg-gray-300 disabled:opacity-50 disabled:pointer-events-none" 
+                                aria-current="page">
+                                <span>{{ link.label }}</span>
+                            </Link>
+
+                            <!-- Inactive page button -->
+                            <Link 
+                                :href="route('products.index', { page: link.label, search_str: form.search_str })"
+                                v-else
+                                type="button" 
+                                class="min-h-[38px] min-w-[38px] flex justify-center items-center text-gray-800 hover:bg-gray-100 py-2 px-3 text-sm rounded-lg focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hover:bg-white/10 dark:focus:bg-white/10">
+                                <span>{{ link.label }}</span>
+                            </Link>
+                        </div>
+
+                    </div>
+                </div>
+              </nav>
+              <!-- End Pagination -->            
             </div>
           </div>
 
