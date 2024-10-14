@@ -8,8 +8,10 @@ import TextInput from '@/Components/TextInput.vue';
 
 const props = defineProps({
   products: {type:Object},
-  search_str: String
+  search_str: String,
+  successMessage: String,
 });
+const successMessage = props.successMessage;
 
 const form = useForm({
   id: '',
@@ -67,6 +69,9 @@ const products_count = props.products.length;
                 <span v-else class="m-2">商品件数： {{ products_count }} 件</span>
               </div>    
 
+              <div v-if="successMessage" class="bg-red-100 p-3 m-3 w-48">
+                {{ successMessage }}
+              </div>
 
               <table class="table-auto border border-gray-400 w-10/12 m-3">
                 <thead>
