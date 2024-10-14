@@ -3,13 +3,17 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import DangerButton from '@/Components/DangerButton.vue';
 import { Head } from '@inertiajs/vue3';
 import { Link, useForm } from '@inertiajs/vue3';
+// 検索機能のために追記
+import TextInput from '@/Components/TextInput.vue';
 
 const props = defineProps({
-  products: {type:Object}
+  products: {type:Object},
+  search_str: String
 });
 
 const form = useForm({
   id: '',
+  search_str: props.search_str || '',
 });
 
 const deleteProduct = (id, name) => {
@@ -17,6 +21,14 @@ const deleteProduct = (id, name) => {
     form.delete(route('products.destroy', id));
   }
 };
+
+const search_go = () => {
+  form.get(route('products.index'))
+};
+
+console.log(props.products.length);
+
+const products_count = props.products.length;
 </script>
 
 <template>
@@ -41,6 +53,18 @@ const deleteProduct = (id, name) => {
                 <Link :href="route('products.create')" :class="'px-4 py-2 bg-indigo-500 text-white border rounded-md font-semibold text-xs'" >
                   <i class="fa-solid fa-plus-circle"></i> 商品登録
                 </Link>
+                <div>
+                  <TextInput
+                    id="search_str"
+                    type="text"
+                    class="block w-full"
+                    v-model="form.search_str"
+                    autocomplete="search_str"
+                    @blur="search_go"
+                  />
+                </div>
+                <span v-if="products_count === 0" class="m-2">該当する商品がありません。</span>
+                <span v-else class="m-2">商品件数： {{ products_count }} 件</span>
               </div>    
 
 
