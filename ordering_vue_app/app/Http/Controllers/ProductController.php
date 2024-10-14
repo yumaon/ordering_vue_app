@@ -13,11 +13,22 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::all();
+        //$products = Product::all();
         // dd($products);
-        return Inertia::render('Products/Index', ['products' => $products]);
+        //return Inertia::render('Products/Index', ['products' => $products]);
+        if(empty($request->input()['search_str'])) {
+            $search_str = null;
+            $products = Product::all();
+        } else {
+            $search_str = $request->input()['search_str'];
+            $products = Product::where('name', 'LIKE', '%'.$search_str.'%')->get();
+        }
+        return Inertia::render('Products/Index', [
+            'products' => $products,
+            'search_str' => $search_str
+        ]);
     }
 
     /**
@@ -36,7 +47,7 @@ class ProductController extends Controller
         //dd($request);
         $products = new Product($request->input());
         $products->save();
-        return redirect('products');
+        return redirect('products')->with('success_str', '登録完了しました');
     }
 
     /**
@@ -52,15 +63,17 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        //dd($product);
+        return Inertia::render('Products/Edit', ['product' => $product]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
-        //
+        $product->update($request->input());
+        return redirect('products')->with('success_str', '更新完了しました');
     }
 
     /**
@@ -68,6 +81,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        return redirect('products');
     }
 }
