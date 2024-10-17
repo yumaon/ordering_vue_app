@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Order;
 
 use App\Models\Product;
+use App\Models\Customer;
 use Inertia\Inertia;
 use App\Http\Resources\OrderResource;
 
@@ -50,7 +51,12 @@ class OrderController extends Controller
      */
     public function create()
     {
-        //
+        $customers = Customer::all();
+        $products = Product::all();
+        return Inertia::render('Orders/Create', [
+            'customers' => $customers,
+            'products' => $products,
+        ]);
     }
 
     /**
