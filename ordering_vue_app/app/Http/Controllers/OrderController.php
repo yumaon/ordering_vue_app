@@ -10,16 +10,38 @@ use App\Models\Product;
 use Inertia\Inertia;
 use App\Http\Resources\OrderResource;
 
+use Illuminate\Http\Request;
+
 class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $orders = OrderResource::collection(Order::paginate(5));
+        // $orders = OrderResource::collection(Order::paginate(5));
+        // return Inertia::render('Orders/Index', [
+        //     'orders' => $orders
+        // ]);
+        if (empty($request->input()['search_str'])) {
+            $search_str = null;
+            $orders = OrderResource::collection(
+                Order::orderBy('id', 'desc')->paginate(5)
+            );
+        } else {
+            $search_str = $request->input()['search_str'];
+            $orders = Order::whereHas('customer', function ($query) use ($search_str) {
+                $query->where('name', 'LIKE', '%' . $search_str . '%');
+            })
+                ->orderBy('id', 'desc')
+                ->paginate(5);
+
+            $orders = OrderResource::collection($orders);
+        }
+
         return Inertia::render('Orders/Index', [
-            'orders' => $orders
+            'orders' => $orders,
+            'search_str' => $search_str,
         ]);
     }
 
