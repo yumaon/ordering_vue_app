@@ -12,6 +12,7 @@ use Inertia\Inertia;
 use App\Http\Resources\OrderResource;
 
 use Illuminate\Http\Request;
+use NumberFormatter;
 
 class OrderController extends Controller
 {
@@ -76,9 +77,53 @@ class OrderController extends Controller
     public function show(Order $order)
     {
         $orderResource = new OrderResource($order);
+
+        $normal_tax_total = 0;
+        $reduced_tax_total = 0;
+        // 商品1
+        if($orderResource->product1['tax'] == 10) {
+            $normal_tax_total = $normal_tax_total + $orderResource->product1['price'] * $orderResource->num1;
+        }
+        if($orderResource->product1['tax'] == 8) {
+            $reduced_tax_total = $reduced_tax_total + $orderResource->product1['price'] * $orderResource->num1;
+        }
+        // 商品2
+        if($orderResource->product2) {
+            if($orderResource->product2['tax'] == 10) {
+                $normal_tax_total = $normal_tax_total + $orderResource->product2['price'] * $orderResource->num2;
+            }
+            if($orderResource->product2['tax'] == 8) {
+                $reduced_tax_total = $reduced_tax_total + $orderResource->product2['price'] * $orderResource->num2;
+            }
+        }
+        
+        // 商品3
+        if($orderResource->product3) {
+            if($orderResource->product3['tax'] == 10) {
+                $normal_tax_total = $normal_tax_total + $orderResource->product3['price'] * $orderResource->num3;
+            }
+            if($orderResource->product3['tax'] == 8) {
+                $reduced_tax_total = $reduced_tax_total + $orderResource->product3['price'] * $orderResource->num3;
+            }
+        }
+
+        // 税率計算
+        $normal_tax = (int)($normal_tax_total * 0.1);
+        $reduced_tax = (int)($reduced_tax_total * 0.08);
+        $total = $normal_tax_total + $reduced_tax_total + $normal_tax + $reduced_tax;
+
         return Inertia::render('Orders/Show', [
             'order' => $orderResource,
+            'normal_tax_total' => number_format($normal_tax_total),
+            'reduced_tax_total' => number_format($reduced_tax_total),
+            'normal_tax' => number_format($normal_tax),
+            'reduced_tax' => number_format($reduced_tax),
+            'total' => number_format($total)
         ]);
+        
+        // return Inertia::render('Orders/Show', [
+        //     'order' => $orderResource,
+        // ]);
     }
 
     /**
