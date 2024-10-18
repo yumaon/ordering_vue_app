@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Order;
 
 use App\Models\Product;
+use App\Models\Customer;
 use Inertia\Inertia;
 use App\Http\Resources\OrderResource;
 
@@ -50,7 +51,12 @@ class OrderController extends Controller
      */
     public function create()
     {
-        //
+        $customers = Customer::all();
+        $products = Product::all();
+        return Inertia::render('Orders/Create', [
+            'customers' => $customers,
+            'products' => $products,
+        ]);
     }
 
     /**
@@ -58,7 +64,10 @@ class OrderController extends Controller
      */
     public function store(StoreOrderRequest $request)
     {
-        //
+        $order = new Order($request->input());
+        $order->orderDay = date("Y-m-d H:i:s");
+        $order->save();
+        return redirect()->route('orders.index')->with('succsess_str', '登録完了しました');
     }
 
     /**
@@ -74,7 +83,13 @@ class OrderController extends Controller
      */
     public function edit(Order $order)
     {
-        //
+        $customers = Customer::all();
+        $products = Product::all();
+        return Inertia::render('Orders/Edit', [
+            'order' => $order,
+            'customers' => $customers,
+            'products' => $products,
+        ]);
     }
 
     /**
@@ -82,7 +97,9 @@ class OrderController extends Controller
      */
     public function update(UpdateOrderRequest $request, Order $order)
     {
-        //
+        $order->orderday = date("Y-m-d H:i:s");
+        $order->update($request->input());
+        return redirect()->route('orders.index')->with('succsess_str', '更新完了しました');
     }
 
     /**
@@ -90,6 +107,7 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
-        //
+        $order->delete();
+        return redirect('orders');
     }
 }
