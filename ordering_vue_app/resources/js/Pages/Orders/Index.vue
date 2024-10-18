@@ -133,7 +133,7 @@ props.orders.data.forEach((order, index) => {
                   {{ order.product2?.price }}
                 </td>
                 <td class="border border-gray-400 px-2 py-2 text-center">
-                  {{ order.product2?.tax }}%
+                  {{ order.product2?.tax }}{{ order.product2 ? "%" : "" }}
                 </td>
                 <td class="border border-gray-400 px-2 py-2 text-center">
                   {{ order.num2 }}
@@ -145,7 +145,7 @@ props.orders.data.forEach((order, index) => {
                   {{ order.product3?.price }}
                 </td>
                 <td class="border border-gray-400 px-2 py-2 text-center">
-                  {{ order.product3?.tax }}%
+                  {{ order.product3?.tax }}{{ order.product3 ? "%" : "" }}
                 </td>
                 <td class="border border-gray-400 px-2 py-2 text-center">
                   {{ order.num3 }}
