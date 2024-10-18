@@ -83,7 +83,13 @@ class OrderController extends Controller
      */
     public function edit(Order $order)
     {
-        //
+        $customers = Customer::all();
+        $products = Product::all();
+        return Inertia::render('Orders/Edit', [
+            'order' => $order,
+            'customers' => $customers,
+            'products' => $products,
+        ]);
     }
 
     /**
@@ -91,7 +97,9 @@ class OrderController extends Controller
      */
     public function update(UpdateOrderRequest $request, Order $order)
     {
-        //
+        $order->orderday = date("Y-m-d H:i:s");
+        $order->update($request->input());
+        return redirect()->route('orders.index')->with('succsess_str', '更新完了しました');
     }
 
     /**
