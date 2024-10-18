@@ -64,7 +64,10 @@ class OrderController extends Controller
      */
     public function store(StoreOrderRequest $request)
     {
-        //
+        $order = new Order($request->input());
+        $order->orderDay = date("Y-m-d H:i:s");
+        $order->save();
+        return redirect()->route('orders.index')->with('succsess_str', '登録完了しました');
     }
 
     /**
