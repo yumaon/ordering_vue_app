@@ -75,7 +75,10 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        //
+        $orderResource = new OrderResource($order);
+        return Inertia::render('Orders/Show', [
+            'order' => $orderResource,
+        ]);
     }
 
     /**

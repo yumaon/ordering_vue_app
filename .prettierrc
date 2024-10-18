@@ -2,6 +2,6 @@
   "printWidth": 100,
   "tabWidth": 2,
   "useTabs": false,
-  "htmlWhitespaceSensitivity": "ignore", 
-  "proseWrap": "never" 
+  "htmlWhitespaceSensitivity": "ignore",
+  "proseWrap": "never"
 }
