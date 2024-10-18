@@ -157,6 +157,14 @@ props.orders.data.forEach((order, index) => {
                 </td>
                 <td class="border border-gray-400 px-4 py-2 text-center">
                   <Link
+                    :href="route('orders.show', order.id)"
+                    :class="'px-4 py-2 bg-green-400 text-white border rounded-md text-xs inline-block text-center'"
+                  >
+                    <i class="fa-solid fa-info"></i>
+                  </Link>
+                </td>
+                <td class="border border-gray-400 px-4 py-2 text-center">
+                  <Link
                     :href="route('orders.edit', order.id)"
                     :class="'px-4 py-2 bg-yellow-400 text-white border rounded-md text-xs inline-block text-center'"
                   >
