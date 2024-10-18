@@ -18,7 +18,12 @@ const form = useForm({
   search_str: props.search_str || "",
 });
 const deleteOrder = (id, name) => {
-  if (confirm("Are you sure to delete " + name + "?")) {
+  // if (confirm("Are you sure to delete " + name + "?")) {
+  // }
+  if (confirm("Are you sure to delete OrderID: " + id + "?")) {
+    form.delete(route("orders.destroy", id), {
+      preserveScroll: true,
+    });
   }
 };
 const search_go = () => {
