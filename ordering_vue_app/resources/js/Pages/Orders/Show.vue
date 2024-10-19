@@ -12,6 +12,8 @@ const props = defineProps({
   reduced_tax_total: "",
   normal_tax: "",
   reduced_tax: "",
+  page: "",
+  search_str: "",
 });
 const handleSubmit = () => {
   const orderId = props.order.data.id;
@@ -36,7 +38,7 @@ console.log(props);
 
         <div class="mt-3 mb-3 ml-3 flex">
           <Link
-            :href="route('orders.index')"
+            :href="route('orders.index', { page: props.page, search_str: props.search_str })"
             :class="'px-4 py-2 bg-indigo-500 text-white border rounded-md font-semibold text-xs'"
           >
             <i class="fa-solid fa-backward"></i>

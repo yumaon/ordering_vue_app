@@ -77,7 +77,7 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Order $order)
+    public function show(Order $order, Request $request)
     {
         $orderResource = new OrderResource($order);
 
@@ -115,13 +115,18 @@ class OrderController extends Controller
         $reduced_tax = (int)($reduced_tax_total * 0.08);
         $total = $normal_tax_total + $reduced_tax_total + $normal_tax + $reduced_tax;
 
+        $page = $request->input('page');
+        $search_str = $request->input('search_str');
+
         return Inertia::render('Orders/Show', [
             'order' => $orderResource,
             'normal_tax_total' => number_format($normal_tax_total),
             'reduced_tax_total' => number_format($reduced_tax_total),
             'normal_tax' => number_format($normal_tax),
             'reduced_tax' => number_format($reduced_tax),
-            'total' => number_format($total)
+            'total' => number_format($total),
+            'page' => $page,
+            'search_str' => $search_str
         ]);
         
         // return Inertia::render('Orders/Show', [
