@@ -13,7 +13,10 @@ const props = defineProps({
   normal_tax: "",
   reduced_tax: "",
 });
-const handleSubmit = () => {};
+const handleSubmit = () => {
+  const orderId = props.order.data.id;
+  window.open(route("orders.pdf", { order: orderId }), "_blank"); // 新しいタブでPDFリクエストを送信
+};
 console.log(props);
 </script>
 

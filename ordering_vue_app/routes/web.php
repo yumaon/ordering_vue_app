@@ -27,6 +27,7 @@ Route::middleware('auth')->group(function () {
     // 以下記述を追記する
     Route::resource('products', ProductController::class);
     Route::resource('orders', OrderController::class);
+    Route::get('/orders/{order}/pdf', [OrderController::class, 'generatePdf'])->name('orders.pdf');
 });
 
 require __DIR__ . '/auth.php';
